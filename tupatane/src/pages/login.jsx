@@ -1,8 +1,28 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup ,sendEmailVerification} from 'firebase/auth';
 import { auth } from '../firebase'
 import { FaGoogle } from "react-icons/fa";
+import { useNavigate,Link } from 'react-router-dom';
+
 function Login() {
+  const navigate = useNavigate();
+  const googleProvider = new GoogleAuthProvider();
+
+  const googleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      if (result.user) {
+        if (!result.user.emailVerified) {
+          await sendEmailVerification(auth.currentUser);
+          console.log("Verification email sent");
+        }
+        navigate('/tupataneHome');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className='flex justify-center'>
      <div>
@@ -30,7 +50,7 @@ function Login() {
         <div className="form-control mt-6">
           <button className="btn bg-orange-500 text-white">Login</button>
         </div>
-        <button className="btn bg-orange-500 text-white "><FaGoogle /> Login using Google</button>
+        <button className="btn bg-orange-500 text-white " onClick={googleLogin}><FaGoogle /> Login using Google</button>
       </form>
       
     </div>
