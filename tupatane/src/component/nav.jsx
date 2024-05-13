@@ -4,7 +4,7 @@ import { auth } from '../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import rickImage from '../pictures/rickImage.jpg';
 import { useNavigate } from 'react-router-dom';
-import { db } from '../firebase';
+
 
 
 function Nav() {
@@ -44,6 +44,8 @@ function Nav() {
                   </Link>
                 </li>
                 <li><Link to="/settings">Settings</Link></li>
+                <li><Link to="/messages">Messages</Link></li>
+                <li><Link to="/mygroups">Groups</Link></li>
                 <li><a onClick={handleLogout}>Logout</a></li>
               </ul>
             </div>

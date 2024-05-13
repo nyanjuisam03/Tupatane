@@ -6,6 +6,10 @@ import SignUp from './pages/SignUp'
 import Layout from './component/layout'
 import TupataneHome from './pages/TupataneHome'
 import Proflie from './pages/proflie'
+import JoinGroup from './pages/JoinGroup'
+import CreatedGroup from './pages/createdGroup'
+import GroupChat from './pages/GroupChat'
+import MyGroups from './pages/MyGroups'
 function App() {
   
 
@@ -19,6 +23,10 @@ function App() {
     <Route path="/signUp" element={<SignUp/>}/>
     <Route path="/tupataneHome" element={<TupataneHome/>}/>
     <Route path='/tupatane-profile' element={<Proflie/>}/>
+    <Route path='/tupatane-makeGroup' element={<CreatedGroup/>}/>
+  <Route path='/tupatane-joinGroup' element={<JoinGroup/>}/>
+  <Route path='/groups/:userId' element={<GroupChat/>}/>
+  <Route path='/mygroups' element={<MyGroups/>}/>
     </Routes>
      </Layout>
      </BrowserRouter>
