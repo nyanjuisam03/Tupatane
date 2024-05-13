@@ -5,6 +5,7 @@ import Login from './pages/login'
 import SignUp from './pages/SignUp'
 import Layout from './component/layout'
 import TupataneHome from './pages/TupataneHome'
+import Proflie from './pages/proflie'
 function App() {
   
 
@@ -17,6 +18,7 @@ function App() {
     <Route path="/login" element={<Login/>}/>
     <Route path="/signUp" element={<SignUp/>}/>
     <Route path="/tupataneHome" element={<TupataneHome/>}/>
+    <Route path='/tupatane-profile' element={<Proflie/>}/>
     </Routes>
      </Layout>
      </BrowserRouter>
