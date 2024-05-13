@@ -12,10 +12,10 @@ const MyGroups = () => {
         const groupsRef = collection(db, 'groups');
         const q = query(groupsRef, where('userId', '==', userId));
         const querySnapshot = await getDocs(q);
-        const groupsData = querySnapshot.docs.map((doc) => doc.data());
+        const groupsData = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         setGroups(groupsData);
       };
-  
+    
       fetchGroups();
     }, [userId]);
   
@@ -29,6 +29,7 @@ const MyGroups = () => {
           <h3>{group.name}</h3>
           <p>{group.description}</p>
           <p>Niche: {group.niche}</p>
+          <Link to={`/groups/${group.id}`} className="btn bg-orange-500">Chat</Link>
         </div>
         </div>
         </>
