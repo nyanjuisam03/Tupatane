@@ -2,10 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { auth } from '../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import rickImage from '../pictures/rickImage.jpg';
 import { useNavigate } from 'react-router-dom';
-
-
 
 function Nav() {
   const [user] = useAuthState(auth);
@@ -33,7 +30,11 @@ function Nav() {
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 rounded-full">
-                  <img alt="Avatar" src={rickImage} />
+                  {user.photoURL ? (
+                    <img alt="Avatar" src={user.photoURL} />
+                  ) : (
+                    <img alt="Avatar" src={rickImage} />
+                  )}
                 </div>
               </div>
               <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">

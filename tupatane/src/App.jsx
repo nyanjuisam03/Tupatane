@@ -25,7 +25,7 @@ function App() {
     <Route path='/tupatane-profile' element={<Proflie/>}/>
     <Route path='/tupatane-makeGroup' element={<CreatedGroup/>}/>
   <Route path='/tupatane-joinGroup' element={<JoinGroup/>}/>
-  <Route path='/groups/:userId' element={<GroupChat/>}/>
+  <Route path='/groups/:groupId/:groupName' element={<GroupChat/>}/>
   <Route path='/mygroups' element={<MyGroups/>}/>
     </Routes>
      </Layout>
