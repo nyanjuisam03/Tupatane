@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { db, auth } from '../firebase';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
 import { Link } from 'react-router-dom';
 
 const MyGroups = () => {
@@ -14,7 +14,10 @@ const MyGroups = () => {
       const querySnapshot = await getDocs(q);
       const groupsData = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setGroups(groupsData);
+     
     };
+
+   
 
     fetchGroups();
   }, [userId]);
@@ -29,6 +32,7 @@ const MyGroups = () => {
             <p>{group.description}</p>
             <p>Niche: {group.niche}</p>
             <Link to={`/groups/${group.id}/${group.name}`} className="btn bg-orange-500">Chat</Link>
+            
           </div>
         </div>
       ))}

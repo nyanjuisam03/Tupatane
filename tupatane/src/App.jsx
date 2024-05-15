@@ -10,6 +10,7 @@ import JoinGroup from './pages/JoinGroup'
 import CreatedGroup from './pages/createdGroup'
 import GroupChat from './pages/GroupChat'
 import MyGroups from './pages/MyGroups'
+import MyFriends from './pages/MyFriends'
 function App() {
   
 
@@ -27,6 +28,7 @@ function App() {
   <Route path='/tupatane-joinGroup' element={<JoinGroup/>}/>
   <Route path='/groups/:groupId/:groupName' element={<GroupChat/>}/>
   <Route path='/mygroups' element={<MyGroups/>}/>
+  <Route path='/myfriends' element={<MyFriends/>}/>
     </Routes>
      </Layout>
      </BrowserRouter>

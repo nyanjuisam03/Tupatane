@@ -45,7 +45,7 @@ function Nav() {
                   </Link>
                 </li>
                 <li><Link to="/settings">Settings</Link></li>
-                <li><Link to="/messages">Messages</Link></li>
+                <li><Link to="/myfriends">Friends</Link></li>
                 <li><Link to="/mygroups">Groups</Link></li>
                 <li><a onClick={handleLogout}>Logout</a></li>
               </ul>
