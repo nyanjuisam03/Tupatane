@@ -11,6 +11,7 @@ import CreatedGroup from './pages/createdGroup'
 import GroupChat from './pages/GroupChat'
 import MyGroups from './pages/MyGroups'
 import MyFriends from './pages/MyFriends'
+import PersonalChat from './pages/PersonalChat'
 function App() {
   
 
@@ -29,6 +30,8 @@ function App() {
   <Route path='/groups/:groupId/:groupName' element={<GroupChat/>}/>
   <Route path='/mygroups' element={<MyGroups/>}/>
   <Route path='/myfriends' element={<MyFriends/>}/>
+  <Route path='/private-chat/:id' element={<PersonalChat/>}/>
+
     </Routes>
      </Layout>
      </BrowserRouter>

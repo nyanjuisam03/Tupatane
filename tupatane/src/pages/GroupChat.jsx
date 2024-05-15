@@ -15,7 +15,7 @@ const GroupChat = () => {
   const [message, setMessage] = useState('');
   const [selectedUser, setSelectedUser] = useState(null); // State to manage the selected user for the modal
   const [isModalOpen, setIsModalOpen] = useState(false); // State to manage the modal visibility
-
+const navigate=useNavigate()
   const messagesRef = collection(db, 'groups', groupId, 'messages'); // Scoped to group's messages subcollection
   const q = query(messagesRef, orderBy('createdAt'));
   const [messages] = useCollectionData(q, { idField: 'id' });
@@ -52,6 +52,7 @@ const GroupChat = () => {
       id: selectedUser.uid,
       name: selectedUser.displayName
     };
+    
 
     try {
       await updateDoc(userDocRef, {
@@ -71,9 +72,17 @@ const GroupChat = () => {
 
 
 
-  const handlePrivateChat = () => {
-    // Logic to start a private chat with the selected user
-    handleCloseModal();
+  const handlePrivateChat = async () => {
+    if (selectedUser) {
+      const privateChatRef = collection(db, 'privateChats');
+      const privateChatDoc = await addDoc(privateChatRef, {
+        members: [user.uid, selectedUser.uid],
+        createdAt: serverTimestamp()
+      });
+      // Redirect to the private chat page
+      navigate(`/private-chat/${privateChatDoc.id}`);
+      handleCloseModal();
+    }
   };
 
   return (
