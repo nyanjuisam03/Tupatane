@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { auth, db } from '../firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, collection, addDoc, serverTimestamp, query, where, getDocs } from 'firebase/firestore';
 
 const MyFriends = () => {
   const [friends, setFriends] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchFriends = async () => {
@@ -31,6 +33,7 @@ const MyFriends = () => {
     fetchFriends();
   }, []);
 
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -45,9 +48,9 @@ const MyFriends = () => {
       {friends.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {friends.map(friend => (
-            <div key={friend.id} className="card w-full bg-base-100 shadow-xl p-4">
+            <div key={friend.uid} className="card w-full bg-base-100 shadow-xl p-4">
               <h3 className="text-center font-bold">{friend.name}</h3>
-             <button className='btn bg-orange-500 text-white'>Chat</button>
+              <button className='btn bg-orange-500 text-white' >Chat</button>
             </div>
           ))}
         </div>

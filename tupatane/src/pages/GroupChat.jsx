@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { auth, db } from '../firebase';
 import { LuSend } from "react-icons/lu";
-import { collection, addDoc, serverTimestamp, query, orderBy, doc , updateDoc , arrayUnion ,getDoc ,setDoc } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, query, orderBy, doc, updateDoc, arrayUnion, getDocs, setDoc } from 'firebase/firestore';
 import { FaVideo } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
 
@@ -15,14 +15,32 @@ const GroupChat = () => {
   const [message, setMessage] = useState('');
   const [selectedUser, setSelectedUser] = useState(null); // State to manage the selected user for the modal
   const [isModalOpen, setIsModalOpen] = useState(false); // State to manage the modal visibility
-const navigate=useNavigate()
+  const navigate = useNavigate()
   const messagesRef = collection(db, 'groups', groupId, 'messages'); // Scoped to group's messages subcollection
   const q = query(messagesRef, orderBy('createdAt'));
   const [messages] = useCollectionData(q, { idField: 'id' });
 
+  const [usernames, setUsernames] = useState({});
+
+  useEffect(() => {
+    const fetchUsernames = async () => {
+      const profilesRef = collection(db, 'profiles');
+      const snapshot = await getDocs(profilesRef);
+      const usernamesData = snapshot.docs.reduce((acc, doc) => {
+        acc[doc.id] = doc.data().userName;
+        return acc;
+      }, {});
+      setUsernames(usernamesData);
+    };
+
+    fetchUsernames();
+  }, []);
+
   const sendMessage = async (e) => {
     e.preventDefault();
     if (message.trim() === '') return;
+
+    
 
     await addDoc(messagesRef, {
       text: message,
@@ -52,7 +70,6 @@ const navigate=useNavigate()
       id: selectedUser.uid,
       name: selectedUser.displayName
     };
-    
 
     try {
       await updateDoc(userDocRef, {
@@ -70,20 +87,7 @@ const navigate=useNavigate()
     handleCloseModal();
   };
 
-
-
-  const handlePrivateChat = async () => {
-    if (selectedUser) {
-      const privateChatRef = collection(db, 'privateChats');
-      const privateChatDoc = await addDoc(privateChatRef, {
-        members: [user.uid, selectedUser.uid],
-        createdAt: serverTimestamp()
-      });
-      // Redirect to the private chat page
-      navigate(`/private-chat/${privateChatDoc.id}`);
-      handleCloseModal();
-    }
-  };
+  
 
   return (
     <div className='flex flex-col h-screen'>
@@ -111,7 +115,7 @@ const navigate=useNavigate()
                 </>
               ) : (
                 <>
-                  <div className='font-bold'>{msg.displayName}</div>
+                  <div className='font-bold'>{usernames[msg.uid]}</div>
                   <div>{msg.text}</div>
                 </>
               )}
@@ -144,7 +148,7 @@ const navigate=useNavigate()
             <p className="py-4">What would you like to do with {selectedUser?.displayName}?</p>
             <div className="modal-action">
               <button className="btn bg-orange-500 text-white" onClick={handleAddFriend}>Add as Friend</button>
-              <button className="btn bg-orange-500 text-white" onClick={handlePrivateChat}>Start Private Chat</button>
+             
               <button className="btn bg-orange-500 text-white" onClick={handleCloseModal}>Close</button>
             </div>
           </div>
